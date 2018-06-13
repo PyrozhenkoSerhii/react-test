@@ -5,13 +5,19 @@ import { ControlLabel } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
+import {Link} from 'react-router-dom'
+
 export default class Login extends React.Component {
     constructor(props){
         super();
         this.state = {
             username: "",
-            password: ""
+            pass: ""
         }
+    }
+
+    validateForm(){
+        return this.state.username.length > 0 && this.state.pass.length > 0;
     }
 
     changeHandler = event => {
@@ -21,24 +27,25 @@ export default class Login extends React.Component {
     };
     submitHandler = event => {
         event.preventDefault();
+        console.log('request!');
     };
 
     render() {
         return (
             <div>
-                <form>
+                <form onSubmit={this.submitHandler}>
                     <h1>Login</h1>
-                    <FormGroup controlId="email">
+                    <FormGroup controlId="email" bsSize="large">
                         <ControlLabel>Email</ControlLabel>
                         <FormControl type="email" value={this.state.email} onChange={this.changeHandler}/>
                     </FormGroup>
-                    <FormGroup controlId="password">
+                    <FormGroup controlId="password" bsSize="large">
                         <ControlLabel>Password</ControlLabel>
-                        <FormControl type="text" value={this.state.password} onChange={this.changeHandler}/>
+                        <FormControl type="password" value={this.state.email} onChange={this.changeHandler}/>
                     </FormGroup>
-                    <Button disabled={!this.validForm} type="submit">Login</Button>
+                    <Button disabled={!this.validateForm()} type="submit">Login</Button>
                 </form>
-                <a>Don't u have an account? Register</a>
+                <Link to="/register">Don't u have an account? Register</Link>
             </div>
         );
     }
