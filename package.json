@@ -7,6 +7,8 @@
     "bootstrap": "^4.1.1",
     "bower": "^1.8.4",
     "react": "^16.4.0",
+    "react-alert": "^4.0.4",
+    "react-alert-template-basic": "^1.0.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
     "react-router": "^4.3.1",

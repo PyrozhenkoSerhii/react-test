@@ -11,18 +11,34 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-light">
-                    <ul className="nav navbar-nav">
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/register">Register</Link></li>
-                    </ul>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Link className="nav-link" to="/">Home</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link  className="nav-link" to="/login">Login</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/register">Register</Link>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
-                <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/register" component={Register}/>
-                </Switch>
+
+                <div className="container">
+                    <Switch>
+                        <Route exact path="/" component={Home}/>
+                        <Route path="/login" component={Login}/>
+                        <Route path="/register" component={Register}/>
+                    </Switch>
+                </div>
             </div>
         );
     }

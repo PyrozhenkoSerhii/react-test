@@ -1,52 +1,80 @@
 import React from 'react';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import { withAlert } from "react-alert";
 
 import { FormGroup } from 'react-bootstrap';
 import { ControlLabel } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
-import {Link} from 'react-router-dom'
+const loginComponent = class Login extends React.Component {
+    baseUrl = 'https://obscure-stream-46512.herokuapp.com/customers/';
+    config = {
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
 
-export default class Login extends React.Component {
     constructor(props){
         super();
         this.state = {
-            username: "",
-            pass: ""
+            username: '',
+            password: '',
+            redirect: false
         }
     }
 
     validateForm(){
-        return this.state.username.length > 0 && this.state.pass.length > 0;
+        return this.state.username.length > 2 && this.state.password.length > 2;
     }
 
-    changeHandler = event => {
-        this.setState = {
-            [event.target.id]: event.target.value
-        }
+    changeHandler = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
     };
-    submitHandler = event => {
-        event.preventDefault();
-        console.log('request!');
+
+    submitHandler = (e) => {
+        e.preventDefault();
+        let customer = {username: this.state.username, password: this.state.password};
+        axios.post(this.baseUrl + 'authenticate', {customer: customer}, this.config)
+            .then((response)=>{
+                console.log(response);
+                if(response.data.success){
+                    localStorage.setItem('token',response.data.token);
+                    this.setState({
+                        redirect: true
+                    });
+                }else{
+                    this.props.alert.error("Wrong username or password!");
+                }
+            })
     };
 
     render() {
+        if (this.state.redirect === true) {
+            return <Redirect to='/' />
+        }
         return (
             <div>
                 <form onSubmit={this.submitHandler}>
                     <h1>Login</h1>
-                    <FormGroup controlId="email" bsSize="large">
-                        <ControlLabel>Email</ControlLabel>
-                        <FormControl type="email" value={this.state.email} onChange={this.changeHandler}/>
+                    <FormGroup controlId="username" bsSize="large">
+                        <ControlLabel>Username</ControlLabel>
+                        <FormControl type="text" value={this.state.username} onChange={this.changeHandler}/>
                     </FormGroup>
                     <FormGroup controlId="password" bsSize="large">
                         <ControlLabel>Password</ControlLabel>
-                        <FormControl type="password" value={this.state.email} onChange={this.changeHandler}/>
+                        <FormControl type="password" value={this.state.password} onChange={this.changeHandler}/>
                     </FormGroup>
-                    <Button disabled={!this.validateForm()} type="submit">Login</Button>
+                    <Button disabled={!this.validateForm()} className="btn btn-success" type="submit">Login</Button>
                 </form>
                 <Link to="/register">Don't u have an account? Register</Link>
             </div>
         );
     }
-}
+};
+
+export default withAlert(loginComponent);
