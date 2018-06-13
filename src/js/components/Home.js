@@ -1,14 +1,14 @@
 import React from 'react';
 
 export default class Home extends React.Component {
-    constructor(props){
+    constructor(props) {
         super();
-        let token = localStorage.getItem('token');
-        //console.log(token);
+        // let token = localStorage.getItem('token');
     }
-    render(){
+
+    render() {
         return (
-            <h1>Home page</h1>
+            <h1>{this.props.userData.username}</h1>
         );
     }
 }

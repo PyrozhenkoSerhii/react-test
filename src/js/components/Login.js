@@ -1,15 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {Link} from 'react-router-dom'
-import { withAlert } from "react-alert";
+import {withAlert} from "react-alert";
+import PropTypes from 'prop-types';
 
-import { FormGroup } from 'react-bootstrap';
-import { ControlLabel } from 'react-bootstrap';
-import { FormControl } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import {FormGroup} from 'react-bootstrap';
+import {ControlLabel} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 
-const loginComponent = class Login extends React.Component {
+class Login extends React.Component {
     baseUrl = 'https://obscure-stream-46512.herokuapp.com/customers/';
     config = {
         headers: {
@@ -17,16 +18,17 @@ const loginComponent = class Login extends React.Component {
         }
     };
 
-    constructor(props){
+    constructor(props) {
         super();
         this.state = {
             username: '',
             password: '',
             redirect: false
-        }
+        };
+        console.log(props);
     }
 
-    validateForm(){
+    validateForm() {
         return this.state.username.length > 2 && this.state.password.length > 2;
     }
 
@@ -40,14 +42,16 @@ const loginComponent = class Login extends React.Component {
         e.preventDefault();
         let customer = {username: this.state.username, password: this.state.password};
         axios.post(this.baseUrl + 'authenticate', {customer: customer}, this.config)
-            .then((response)=>{
+            .then((response) => {
                 console.log(response);
-                if(response.data.success){
-                    localStorage.setItem('token',response.data.token);
+                if (response.data.success) {
+                    localStorage.setItem('token', response.data.token);
+                    console.log(response);
                     this.setState({
                         redirect: true
                     });
-                }else{
+                    this.props.userUpdater(response.data.customer);
+                } else {
                     this.props.alert.error("Wrong username or password!");
                 }
             })
@@ -55,7 +59,7 @@ const loginComponent = class Login extends React.Component {
 
     render() {
         if (this.state.redirect === true) {
-            return <Redirect to='/' />
+            return <Redirect to='/'/>
         }
         return (
             <div>
@@ -76,5 +80,11 @@ const loginComponent = class Login extends React.Component {
         );
     }
 };
+
+Login.protoTypes = {
+    userUpdater : PropTypes.any
+};
+
+const loginComponent = Login;
 
 export default withAlert(loginComponent);
