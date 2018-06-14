@@ -1,4 +1,4 @@
-import {ADD_PRODUCT} from "../constants/actionTypes";
+import {ADD_PRODUCT, DELETE_PRODUCT} from "../constants/actionTypes";
 
 const initialState = {
     products: []
@@ -7,9 +7,12 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type){
         case ADD_PRODUCT:
-            // state.articles.push(action.payload);
-            // return state;
-            return {...state, products: [...state.products, action.payload]};
+            console.log(action.payload);
+            return {products: [...state.products, action.payload]};
+        case DELETE_PRODUCT:
+            let tempProduct = [...state.products];
+            tempProduct = tempProduct.filter(el => el.id !== action.payload.id);
+            return {products: tempProduct};
         default:
             return state;
     }

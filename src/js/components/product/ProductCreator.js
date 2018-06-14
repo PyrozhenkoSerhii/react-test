@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {addProduct} from "../../actions/indexAction";
+import uuid from 'uuid';
 
 import {FormGroup} from 'react-bootstrap';
 import {ControlLabel} from 'react-bootstrap';
@@ -17,7 +18,8 @@ class ProductCreator extends React.Component {
     constructor() {
         super();
         this.state = ({
-            title: ''
+            title: '',
+            id: ''
         })
     }
 
@@ -26,14 +28,12 @@ class ProductCreator extends React.Component {
     }
 
     handleChange = (e) => {
-        this.setState({title: e.target.value})
+        this.setState({title: e.target.value, id: uuid()})
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const {title} = this.state;
-        const id = {id: Math.random(10, 1000)};
-        this.props.addProduct({title, id});
+        this.props.addProduct(this.state);
         this.setState({title: ''});
     };
 

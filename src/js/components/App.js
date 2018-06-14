@@ -1,27 +1,41 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Link, Route, Switch} from 'react-router-dom'
+import {Link, Route, Switch, Redirect} from 'react-router-dom'
 
 import Login from './Login';
 import Register from './Register';
 import Home from './Home';
+import Product from './Product'
 
-
+const PrivateRoute = ({component: Component, ...rest}) => (
+    <Route {...rest} render={(props) => (
+        localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login'/>
+    )}/>
+);
 
 export default class App extends React.Component {
     constructor(props) {
         super();
         this.state = {
-            user: []
-        }
-
+            user: [],
+            authenticated: localStorage.getItem('token') !== null
+        };
     }
 
     userUpdater(currentUser) {
         this.setState({
-            user: currentUser
+            user: currentUser,
+            authenticated: localStorage.getItem('token') !== null
         });
+    };
+
+    logout = () => {
+        localStorage.clear();
+        this.setState({
+            user: [],
+            authenticated: false
+        })
     };
 
     render() {
@@ -40,11 +54,18 @@ export default class App extends React.Component {
                                 <Link className="nav-link" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
+                                {!this.state.authenticated && <Link className="nav-link" to="/register">Register</Link>}
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/register">Register</Link>
+                                {!this.state.authenticated && <Link className="nav-link" to="/login">Login</Link>}
                             </li>
+                            <li className="nav-item">
+                                {this.state.authenticated && <Link className="nav-link" to="/product">Product</Link>}
+                            </li>
+                            <li className="nav-item">
+                                {this.state.authenticated && <Link className="nav-link" to="/login" onClick={this.logout}>Logout</Link>}
+                            </li>
+
                         </ul>
                     </div>
                 </nav>
@@ -53,13 +74,14 @@ export default class App extends React.Component {
                     <Switch>
                         <Route
                             exact path='/'
-                            render={(props) => <Home {...props} userData={this.state.user} />}
+                            render={(props) => <Home {...props} userData={this.state.user}/>}
                         />
                         <Route
                             path='/login'
-                            render={(props) => <Login {...props} userUpdater={this.userUpdater.bind(this)} />}
+                            render={(props) => <Login {...props} userUpdater={this.userUpdater.bind(this)}/>}
                         />
                         <Route path="/register" component={Register}/>
+                        <PrivateRoute path="/product" component={Product}/>
                     </Switch>
                 </div>
             </div>
