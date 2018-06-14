@@ -25,20 +25,19 @@ class Login extends React.Component {
             password: '',
             redirect: false
         };
-        console.log(props);
     }
 
     validateForm() {
         return this.state.username.length > 2 && this.state.password.length > 2;
     }
 
-    changeHandler = (e) => {
+    handleChange = (e) => {
         this.setState({
             [e.target.id]: e.target.value
         })
     };
 
-    submitHandler = (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         let customer = {username: this.state.username, password: this.state.password};
         axios.post(this.baseUrl + 'authenticate', {customer: customer}, this.config)
@@ -63,15 +62,15 @@ class Login extends React.Component {
         }
         return (
             <div>
-                <form onSubmit={this.submitHandler}>
+                <form onSubmit={this.handleSubmit}>
                     <h1>Login</h1>
                     <FormGroup controlId="username" bsSize="large">
                         <ControlLabel>Username</ControlLabel>
-                        <FormControl type="text" value={this.state.username} onChange={this.changeHandler}/>
+                        <FormControl type="text" value={this.state.username} onChange={this.handleChange}/>
                     </FormGroup>
                     <FormGroup controlId="password" bsSize="large">
                         <ControlLabel>Password</ControlLabel>
-                        <FormControl type="password" value={this.state.password} onChange={this.changeHandler}/>
+                        <FormControl type="password" value={this.state.password} onChange={this.handleChange}/>
                     </FormGroup>
                     <Button disabled={!this.validateForm()} className="btn btn-success" type="submit">Login</Button>
                 </form>

@@ -6,7 +6,7 @@ import {Provider as AlertProvider} from "react-alert";
 import {Provider as ReduxProvider} from "react-redux";
 import AlertTemplate from "react-alert-template-basic";
 
-import store from './store/main';
+import store from './store/indexStore';
 import App from './js/components/App.js';
 
 const options = {
