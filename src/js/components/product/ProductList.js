@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {deleteProduct} from "../../actions/indexAction";
+import {deleteProduct} from "../../actions/productAction";
 
 const mapStateToProps = (state) => {
     return {products: state.products};
