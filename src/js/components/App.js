@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Link, Route, Switch, Redirect} from 'react-router-dom'
 
-import Login from './Login';
-import Register from './Register';
+import Login from './user/Login';
+import Register from './user/Register';
 import Home from './Home';
 import Product from './Product'
 
@@ -35,7 +35,8 @@ export default class App extends React.Component {
         this.setState({
             user: [],
             authenticated: false
-        })
+        });
+
     };
 
     render() {

@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {deleteProduct} from "../../actions/productAction";
+import {deleteProduct} from "../../actions/product";
+import style from './product.css';
 
 const mapStateToProps = (state) => {
     return {products: state.productReducer.products};
@@ -24,11 +25,11 @@ class ProductList extends React.Component {
                     {this.props.products.map(el => (
                         <div key={el.id}>
                             <div className="row">
-                                <div className="col-md-9">
+                                <div className="col-md-10">
                                     <li className="list-group-item">{el.title}</li>
                                 </div>
                                 <div className="col-md-2">
-                                    <button className="btn btn-danger" id={el.id} onClick={this.handleDelete}>
+                                    <button className="btn btn-danger  buttonContainer" id={el.id} onClick={this.handleDelete}>
                                         Delete
                                     </button>
                                 </div>

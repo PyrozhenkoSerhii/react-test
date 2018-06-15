@@ -3,12 +3,20 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import {withAlert} from "react-alert";
+import {connect} from "react-redux";
 import PropTypes from 'prop-types';
+import {addUser} from "../../actions/user";
 
 import {FormGroup} from 'react-bootstrap';
 import {ControlLabel} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addUser: user => dispatch(addUser(user))
+    };
+};
 
 class Login extends React.Component {
     baseUrl = 'https://obscure-stream-46512.herokuapp.com/customers/';
@@ -49,7 +57,9 @@ class Login extends React.Component {
                     this.setState({
                         redirect: true
                     });
+                    // save user by 2 ways
                     this.props.userUpdater(response.data.customer);
+                    this.props.addUser(response.data.customer);
                 } else {
                     this.props.alert.error("Wrong username or password!");
                 }
@@ -81,9 +91,11 @@ class Login extends React.Component {
 };
 
 Login.protoTypes = {
-    userUpdater : PropTypes.any
+    userUpdater : PropTypes.any,
+
 };
 
-const loginComponent = Login;
+const wrappedLogin = withAlert(Login);
 
-export default withAlert(loginComponent);
+export default connect(null, mapDispatchToProps)(wrappedLogin)
+// export default withAlert(Login);

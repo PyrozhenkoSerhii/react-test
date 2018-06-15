@@ -7,7 +7,7 @@ import {Provider as ReduxProvider} from "react-redux";
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import AlertTemplate from "react-alert-template-basic";
 
-import {store, persistor} from "./store/indexStore";
+import {store, persistor} from "./store";
 import App from './js/components/App.js';
 import LoadingView from './js/components/LoadingView';
 
