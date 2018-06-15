@@ -7,11 +7,11 @@ const initialState = {
 export function productReducer(state = initialState, action){
     switch (action.type){
         case ADD_PRODUCT:
-            return {products: [...state.products, action.payload]};
+            return {...state, products: [...state.products, action.payload]};
         case DELETE_PRODUCT:
             let tempProduct = [...state.products];
             tempProduct = tempProduct.filter(el => el.id !== action.payload.id);
-            return {products: tempProduct};
+            return {...state, products: tempProduct};
         default:
             return state;
     }
