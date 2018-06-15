@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {withAlert} from "react-alert";
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {addUser} from "../../actions/user";
+import {saveUser, saveToken} from "../../actions/user";
 
 import {FormGroup} from 'react-bootstrap';
 import {ControlLabel} from 'react-bootstrap';
@@ -14,7 +14,8 @@ import {Button} from 'react-bootstrap';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addUser: user => dispatch(addUser(user))
+        saveUser: user => dispatch(saveUser(user)),
+        saveToken: token => dispatch(saveToken(token))
     };
 };
 
@@ -59,7 +60,8 @@ class Login extends React.Component {
                     });
                     // save user by 2 ways
                     this.props.userUpdater(response.data.customer);
-                    this.props.addUser(response.data.customer);
+                    this.props.saveUser(response.data.customer);
+                    this.props.saveToken(response.data.token);
                 } else {
                     this.props.alert.error("Wrong username or password!");
                 }
