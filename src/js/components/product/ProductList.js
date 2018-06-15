@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {deleteProduct} from "../../actions/productAction";
 
 const mapStateToProps = (state) => {
-    return {products: state.products};
+    return {products: state.productReducer.products};
 };
 const mapDispatchToProps = (dispatch) => {
     return {

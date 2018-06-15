@@ -1,13 +1,12 @@
-import {ADD_PRODUCT, DELETE_PRODUCT} from "../constants/actionTypes";
+import {ADD_PRODUCT, DELETE_PRODUCT} from "../constants/reduxTypes";
 
 const initialState = {
     products: []
 };
 
-const rootReducer = (state = initialState, action) => {
+export function productReducer(state = initialState, action){
     switch (action.type){
         case ADD_PRODUCT:
-            console.log(action.payload);
             return {products: [...state.products, action.payload]};
         case DELETE_PRODUCT:
             let tempProduct = [...state.products];
@@ -17,5 +16,3 @@ const rootReducer = (state = initialState, action) => {
             return state;
     }
 };
-
-export default rootReducer;

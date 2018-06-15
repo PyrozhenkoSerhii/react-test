@@ -4,10 +4,12 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider as AlertProvider} from "react-alert";
 import {Provider as ReduxProvider} from "react-redux";
+import {PersistGate} from 'redux-persist/lib/integration/react';
 import AlertTemplate from "react-alert-template-basic";
 
-import store from './store/indexStore';
+import {store, persistor} from "./store/indexStore";
 import App from './js/components/App.js';
+import LoadingView from './js/components/LoadingView';
 
 const options = {
     offset: '50px',
@@ -17,10 +19,12 @@ const options = {
 
 ReactDOM.render((
     <ReduxProvider store={store}>
-        <AlertProvider template={AlertTemplate}{...options}>
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
-        </AlertProvider>
+        <PersistGate loading={<LoadingView />} persistor={persistor}>
+            <AlertProvider template={AlertTemplate}{...options}>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </AlertProvider>
+        </PersistGate>
     </ReduxProvider>
 ), document.getElementById('root'));
