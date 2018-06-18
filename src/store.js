@@ -6,7 +6,6 @@ import rootReducer from './js/reducers/root'
 import {logger} from './js/middleware/logger';
 import {apiMiddleware} from  './js/middleware/apiAsync';
 
-
 const persistConfig = {
     key: 'root',
     storage: storage,

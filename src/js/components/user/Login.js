@@ -93,11 +93,10 @@ class Login extends React.Component {
 };
 
 Login.protoTypes = {
-    userUpdater : PropTypes.any,
+    userUpdater: PropTypes.any,
 
 };
 
 const wrappedLogin = withAlert(Login);
 
 export default connect(null, mapDispatchToProps)(wrappedLogin)
-// export default withAlert(Login);
