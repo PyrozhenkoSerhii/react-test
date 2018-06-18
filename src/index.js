@@ -11,11 +11,15 @@ import {store, persistor} from "./store";
 import App from './js/components/App.js';
 import LoadingView from './js/components/LoadingView';
 
+import {getProductsAsync} from "./js/actions/product";
+
 const options = {
     offset: '50px',
     timeout: 3000,
     position: "top center"
 };
+
+store.dispatch(getProductsAsync());
 
 ReactDOM.render((
     <ReduxProvider store={store}>

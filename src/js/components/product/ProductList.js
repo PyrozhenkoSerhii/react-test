@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
 
 class ProductList extends React.Component {
     handleDelete = (e) => {
-        this.props.deleteProduct({id: e.target.id});
+        this.props.deleteProduct({_id: e.target.id});
     };
 
     render() {
@@ -22,13 +22,13 @@ class ProductList extends React.Component {
             <div>
                 <ul className="list-group list-group-flush">
                     {this.props.products.map(el => (
-                        <div key={el.id}>
+                        <div key={el._id}>
                             <div className="row">
                                 <div className="col-md-10">
                                     <li className="list-group-item">{el.title}</li>
                                 </div>
                                 <div className="col-md-2">
-                                    <button className="btn btn-danger  buttonContainer" id={el.id} onClick={this.handleDelete}>
+                                    <button className="btn btn-danger  buttonContainer" id={el._id} onClick={this.handleDelete}>
                                         Delete
                                     </button>
                                 </div>

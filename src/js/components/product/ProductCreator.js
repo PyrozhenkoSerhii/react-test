@@ -19,7 +19,7 @@ class ProductCreator extends React.Component {
         super();
         this.state = ({
             title: '',
-            id: ''
+            _id: ''
         })
     }
 
@@ -28,7 +28,7 @@ class ProductCreator extends React.Component {
     }
 
     handleChange = (e) => {
-        this.setState({title: e.target.value, id: uuid()})
+        this.setState({title: e.target.value, _id: uuid()})
     };
 
     handleSubmit = (e) => {
