@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
-    return {user: state.userReducer.user};
+    return {user: state.user.user};
 };
 
 class Home extends React.Component {

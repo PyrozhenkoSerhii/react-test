@@ -4,7 +4,7 @@ import {UNDO, REDO} from "../constants/reduxTypes";
 export function historyReducerWrapper(reducer) {
     const initialState = {
         past: [],
-        present: null,
+        present: reducer(undefined, {}),
         future: []
     };
 

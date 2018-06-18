@@ -1,10 +1,12 @@
 import {ADD_PRODUCT, DELETE_PRODUCT} from "../constants/reduxTypes";
+// import {historyReducerWrapper} from "./testHistoryReducer";
+// import {includeAction} from 'redux-undo'
 
 const initialState = {
     products: []
 };
 
-export function productReducer(state = initialState, action){
+export default function productReducer(state = initialState, action){
     switch (action.type){
         case ADD_PRODUCT:
             return {...state, products: [...state.products, action.payload]};
@@ -16,3 +18,5 @@ export function productReducer(state = initialState, action){
             return state;
     }
 }
+
+//export default historyReducerWrapper(reducer, {filter: includeAction(['ADD_PRODUCT', 'DELETE_PRODUCT']) });
