@@ -12,6 +12,8 @@ import {ControlLabel} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
 
+import {BASE_URL, customerUrl} from "../../apiConfig";
+
 const mapDispatchToProps = (dispatch) => {
     return {
         saveUser: user => dispatch(saveUser(user)),
@@ -20,7 +22,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 class Login extends React.Component {
-    baseUrl = 'https://obscure-stream-46512.herokuapp.com/customers/';
     config = {
         headers: {
             'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ class Login extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         let customer = {username: this.state.username, password: this.state.password};
-        axios.post(this.baseUrl + 'authenticate', {customer: customer}, this.config)
+        axios.post(BASE_URL + customerUrl + 'authenticate', {customer: customer}, this.config)
             .then((response) => {
                 console.log(response);
                 if (response.data.success) {

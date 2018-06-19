@@ -3,11 +3,13 @@ import {Redirect} from 'react-router-dom'
 import {withAlert} from "react-alert";
 import {connect} from "react-redux";
 import {addUser} from "../../actions/user";
+import axios from 'axios';
 
 import {FormGroup} from 'react-bootstrap';
 import {ControlLabel} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import {Button} from "react-bootstrap";
+import {BASE_URL, customerUrl} from "../../apiConfig";
 
 class Register extends React.Component {
     constructor(props) {
@@ -25,6 +27,7 @@ class Register extends React.Component {
             [e.target.id]: e.target.value
         })
     };
+
     handleSubmit = e => {
         e.preventDefault();
         const user = {
@@ -38,12 +41,17 @@ class Register extends React.Component {
         });
         addUser(user);
 
-        this.props.alert.success('Something is happening here, isn\'t it');
-
-        setTimeout(() => {
-            this.setState({redirect: true})
-        }, 3000);
-
+        axios.post(BASE_URL + customerUrl + 'register', user)
+            .then((response) => {
+                if (response.data.success) {
+                    console.log(this.response);
+                    setTimeout(() => {
+                        this.setState({redirect: true})
+                    }, 3000);
+                } else {
+                    this.props.alert.success('Something went wrong!');
+                }
+            });
     };
 
     validateForm = () => {
@@ -54,7 +62,7 @@ class Register extends React.Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to='/'/>
+            return <Redirect to='login'/>
         }
         return (
             <div>
