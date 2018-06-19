@@ -2,13 +2,14 @@ import React from 'react';
 import {Redirect} from 'react-router-dom'
 import {withAlert} from "react-alert";
 import {connect} from "react-redux";
-import {addUser} from "../../actions/user";
 import axios from 'axios';
 
 import {FormGroup} from 'react-bootstrap';
 import {ControlLabel} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import {Button} from "react-bootstrap";
+
+import {addUser} from "../../actions/user";
 import {BASE_URL, customerUrl} from "../../apiConfig";
 
 class Register extends React.Component {

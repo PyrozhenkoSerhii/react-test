@@ -5,6 +5,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import rootReducer from './js/reducers/root'
 import {logger} from './js/middleware/logger';
 import {apiMiddleware} from  './js/middleware/apiAsync';
+import thunk from 'redux-thunk';
 
 const persistConfig = {
     key: 'root',
@@ -14,6 +15,6 @@ const persistConfig = {
 
 const pReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(pReducer, applyMiddleware(logger, apiMiddleware));
+export const store = createStore(pReducer, applyMiddleware(logger, apiMiddleware, thunk));
 
 export const persistor = persistStore(store);

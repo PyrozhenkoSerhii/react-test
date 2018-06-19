@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {API} from '../constants/reduxTypes';
-
-const BASE_URL = 'https://obscure-stream-46512.herokuapp.com/';
+import {BASE_URL} from "../apiConfig";
 
 export const apiMiddleware = ({dispatch}) => next => action => {
     if (action.type !== API) {

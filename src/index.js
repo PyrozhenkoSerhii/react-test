@@ -11,6 +11,8 @@ import App from './js/components/App.js';
 import LoadingView from './js/components/LoadingView';
 import {getProductsAsync} from "./js/actions/product";
 
+import test from './js/actions/thunkTest';
+
 const options = {
     offset: '50px',
     timeout: 3000,
@@ -18,6 +20,8 @@ const options = {
 };
 
 store.dispatch(getProductsAsync());
+
+store.dispatch(test('this is the logger'));
 
 ReactDOM.render((
     <ReduxProvider store={store}>

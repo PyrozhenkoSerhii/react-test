@@ -91,7 +91,7 @@ class Login extends React.Component {
             </div>
         );
     }
-};
+}
 
 Login.protoTypes = {
     userUpdater: PropTypes.any,
