@@ -1,4 +1,4 @@
-import {SAVE_TOKEN, SAVE_USER} from "../constants/reduxTypes";
+import {ADD_USER, SAVE_TOKEN, SAVE_USER} from "../constants/reduxTypes";
 // import {historyReducerWrapper} from "./testHistoryReducer";
 // import {includeAction} from 'redux-undo'
 
@@ -13,6 +13,9 @@ export default function userReducer(state = initialState, action) {
             return {...state, user: action.payload};
         case SAVE_TOKEN:
             return {...state, token: action.payload};
+        case ADD_USER:
+            // todo add_user
+            return state;
         default:
             return state;
     }

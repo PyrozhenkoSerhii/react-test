@@ -13,7 +13,6 @@ class Home extends React.Component {
         return (
             <div>
                 <h2>Welcome, {this.props.user.username}</h2>
-                <h2>Products fetching: {this.props.asyncState.toString()}</h2>
             </div>
         );
     }
