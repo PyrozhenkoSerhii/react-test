@@ -4,22 +4,29 @@ import {withAlert} from "react-alert";
 import {connect} from "react-redux";
 import {addUser} from "../../actions/user";
 
+import {FormGroup} from 'react-bootstrap';
+import {ControlLabel} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
+import {Button} from "react-bootstrap";
+
 class Register extends React.Component {
     constructor(props) {
         super();
         this.state = {
             username: '',
             password: '',
+            rPassword: '',
             redirect: false
         };
     }
 
     handleChange = e => {
         this.setState({
-            [e.target.id]: [e.target.value]
+            [e.target.id]: e.target.value
         })
     };
     handleSubmit = e => {
+        e.preventDefault();
         const user = {
             username: this.state.username,
             password: this.state.password
@@ -30,13 +37,20 @@ class Register extends React.Component {
             rPassword: ''
         });
         addUser(user);
+
+        this.props.alert.success('Something is happening here, isn\'t it');
+
+        setTimeout(() => {
+            this.setState({redirect: true})
+        }, 3000);
+
     };
 
-    validateForm() {
+    validateForm = () => {
         return this.state.username.length > 2
             && this.state.password.length > 2
             && this.state.password === this.state.rPassword;
-    }
+    };
 
     render() {
         if (this.state.redirect) {
@@ -46,24 +60,30 @@ class Register extends React.Component {
             <div>
                 <h1>Register page</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleChange} type="text" id="username" placeholder="username"
-                           className="form-control" value={this.state.username}/>
-                    <input onChange={this.handleChange} type="password" id="password" placeholder="password"
-                           className="form-control" value={this.state.password}/>
-                    <input onChange={this.handleChange} type="password" id="rPassword" placeholder="repeat password"
-                           className="form-control" value={this.state.rPassword}/>
-                    <button disabled={!this.validateForm()} class="btn btn-success">Register</button>
+                    <FormGroup controlId="username" bsSize="large">
+                        <ControlLabel>Username</ControlLabel>
+                        <FormControl type="text" value={this.state.username} onChange={this.handleChange}/>
+                    </FormGroup>
+                    <FormGroup controlId="password" bsSize="large">
+                        <ControlLabel>Password</ControlLabel>
+                        <FormControl type="text" value={this.state.password} onChange={this.handleChange}/>
+                    </FormGroup>
+                    <FormGroup controlId="rPassword" bsSize="large">
+                        <ControlLabel>Repeat password</ControlLabel>
+                        <FormControl type="text" value={this.state.rPassword} onChange={this.handleChange}/>
+                    </FormGroup>
+                    <Button disabled={!this.validateForm()} type="submit" className="btn btn-success">Register</Button>
                 </form>
             </div>
         );
     }
 }
 
-const mapDispatchToProps = ({dispatch}) => {
+const mapDispatchToProps = dispatch => {
     return {
         addUser: user => dispatch(addUser(user))
     }
-}
+};
 
 const wrappedRegister = withAlert(Register);
 
