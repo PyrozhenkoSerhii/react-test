@@ -12,6 +12,12 @@ import {Button} from "react-bootstrap";
 import {addUser} from "../../actions/user";
 import {BASE_URL, customerUrl} from "../../apiConfig";
 
+const mapDispatchToProps = dispatch => {
+    return {
+        addUser: user => dispatch(addUser(user))
+    }
+};
+
 class Register extends React.Component {
     constructor(props) {
         super();
@@ -21,6 +27,7 @@ class Register extends React.Component {
             rPassword: '',
             redirect: false
         };
+        this.initialState = this.state;
     }
 
     handleChange = e => {
@@ -35,13 +42,8 @@ class Register extends React.Component {
             username: this.state.username,
             password: this.state.password
         };
-        this.setState({
-            username: '',
-            password: '',
-            rPassword: ''
-        });
-        addUser(user);
-
+        this.setState(this.initialState);
+        this.props.addUser(user);
         axios.post(BASE_URL + customerUrl + 'register', user)
             .then((response) => {
                 if (response.data.success) {
@@ -88,11 +90,7 @@ class Register extends React.Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        addUser: user => dispatch(addUser(user))
-    }
-};
+
 
 const wrappedRegister = withAlert(Register);
 
