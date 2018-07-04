@@ -6,24 +6,19 @@ import { Link, Route, Switch, Redirect } from 'react-router-dom'
 import Login from './user/Login';
 import Register from './user/Register';
 import Home from './Home';
-import Product from './Product'
+import Product from './Product';
 import Callback from './callback/Callback';
 
 import Auth from '../auth/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login' />
+        localStorage.getItem('access_token') !== null ? <Component {...props} /> : <Redirect to='/login' />
+        //localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login' />
     )} />
 );
 
-const auth = new Auth();
 
-const handleAuthentication = ({ location }) => {
-    if (/access_token|id_token|error/.test(location.hash)) {
-        auth.handleAuthentication();
-    }
-}
 
 export default class App extends React.Component {
     constructor(props) {
@@ -32,10 +27,17 @@ export default class App extends React.Component {
         this.state = {
             user: [],
             authenticated: localStorage.getItem('token') !== null,
-            isAuth0: auth.isAuthenticated()
+            isAuth0: this.auth.isAuthenticated()
         };
+        this.auth0Login = this.auth.login
+    }
 
-        this.auth0Login = auth.login
+    auth = new Auth(this.props);
+
+    handleAuthentication = ({ location }) => {
+        if (/access_token|id_token|error/.test(location.hash)) {
+            this.auth.handleAuthentication();
+        }
     }
 
     userUpdater(currentUser) {
@@ -49,7 +51,8 @@ export default class App extends React.Component {
         localStorage.clear();
         this.setState({
             user: [],
-            authenticated: false
+            authenticated: false,
+            isAuth0: false
         });
     };
 
@@ -74,19 +77,19 @@ export default class App extends React.Component {
                                 <Link className="nav-link" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                {!this.state.authenticated && <Link className="nav-link" to="/register">Register</Link>}
+                                {!this.state.isAuth0 && <Link className="nav-link" to="/register">Register</Link>}
                             </li>
                             <li className="nav-item">
-                                {!this.state.authenticated && <Link className="nav-link" to="/login">Login</Link>}
+                                {!this.state.isAuth0 && <Link className="nav-link" to="/login">Login</Link>}
                             </li>
                             <li className="nav-item">
-                                {this.state.authenticated && <Link className="nav-link" to="/product">Product</Link>}
+                                {this.state.isAuth0 && <Link className="nav-link" to="/product">Product</Link>}
                             </li>
                             <li className="nav-item">
-                                {this.state.authenticated && <Link className="nav-link" to="/login" onClick={this.logout}>Logout</Link>}
+                                {this.state.isAuth0 && <Link className="nav-link" to="/login" onClick={this.logout}>Logout</Link>}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" onClick={this.authLogin}>Auth0</a>
+                                <a className="nav-link" onClick={this.authLogin}>Auth0 test</a>
                             </li>
 
                         </ul>
@@ -106,10 +109,12 @@ export default class App extends React.Component {
                         <Route path="/register" component={Register} />
                         <Route
                             path="/callback"
-                            render={(props) => {
-                                handleAuthentication(props);
-                                return <Callback {...props} />
-                            }}
+                            render={
+                                (props) => {
+                                    this.handleAuthentication(props);
+                                    return <Callback {...props} />
+                                }
+                            }
                         />
                         <PrivateRoute path="/product" component={Product} />
                     </Switch>

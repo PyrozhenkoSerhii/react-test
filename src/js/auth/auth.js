@@ -1,20 +1,20 @@
-import auth0 from 'auth0-js';
-// import history from './history';
+/* eslint no-restricted-globals: 0 */
+
+import Auth0 from 'auth0-js';
 
 export default class Auth {
-    auth0 = new auth0.WebAuth({
+    auth0 = new Auth0.WebAuth({
         domain: 'reactauth.eu.auth0.com',
         clientID: '4yZyO4SplKwgisOsexg9ZDxCuF7M3ByB',
         redirectUri: 'http://localhost:3000/callback',
         audience: 'https://reactauth.eu.auth0.com/userinfo',
         responseType: 'token id_token',
-        scope: 'openid'
+        scope: 'openid profile'
     });
 
     login = () => this.auth0.authorize();
 
     handleAuthentication = () => {
-        console.log('handling...');
         this.auth0.parseHash((err, res) => {
             err ? console.log('err: ', err) : console.log('success: ', res);
             if (res && res.accessToken && res.idToken) {
@@ -24,10 +24,11 @@ export default class Auth {
                 localStorage.setItem('token_id', res.idToken)
                 localStorage.setItem('expires_at', expiresAt)
 
-                console.info('handled');
+                location.pathname = '/';
             }
             if (err) {
-                console.error('error while handling: ', err)
+                console.error('> Error while handling auth0 authentification: ', err)
+                location.pathname = '/login';
             }
         })
     }
@@ -37,11 +38,28 @@ export default class Auth {
         localStorage.removeItem('token_id')
         localStorage.removeItem('expires_at')
 
-        console.log('logout');
+        location.pathname = '/login';
     }
 
     isAuthenticated() {
         const expiresAt = JSON.parse(localStorage.getItem('expires_at'))
-        return expiresAt ? new Date().getTime < expiresAt : false
+        console.log('checking...', expiresAt ? new Date().getTime() < expiresAt : false);
+        return expiresAt ? new Date().getTime() < expiresAt : false
+    }
+
+    //profile
+    profile = {};
+
+    getProfile(callback) {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            throw new Error('No token found!');
+        }
+        this.auth0.client.userInfo(token, (err, res) => {
+            if (res) {
+                this.profile = res;
+            }
+            callback(err, res);
+        })
     }
 }
