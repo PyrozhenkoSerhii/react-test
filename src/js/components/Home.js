@@ -15,6 +15,7 @@ class Home extends React.Component {
                 <h2>Welcome, {this.props.user.username}</h2>
                 {this.props.mobxStore.history.map((el) => (
                     <div key={el.key}>
+                        <p>Mobx work testing...</p>
                         Count: {el.count}<br />
                         Price: {el.price}
                     </div>

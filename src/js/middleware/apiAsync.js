@@ -13,7 +13,6 @@ export const apiMiddleware = ({dispatch}) => next => action => {
 
     axios.get(BASE_URL + payload.url)
         .then(response => {
-            console.log(payload.SUCCESS);
             dispatch({type: payload.SUCCESS, payload: response.data.products})
         })
         .catch(err => {

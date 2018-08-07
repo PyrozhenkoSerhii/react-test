@@ -11,13 +11,12 @@ import Callback from './callback/Callback';
 
 import MobxTest from './mobxTest';
 
-import {counterStore} from '../mobx/counter';
+import { counterStore } from '../mobx/counter';
 
 import Auth from '../auth/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        // localStorage.getItem('access_token') !== null ? <Component {...props} /> : <Redirect to='/login' />
         localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login' />
     )} />
 );
@@ -122,9 +121,9 @@ export default class App extends React.Component {
                                 }
                             }
                         />
-                        <Route 
+                        <Route
                             path="/mobxTest"
-                            render={(props) => <MobxTest {...props} store={counterStore} />} 
+                            render={(props) => <MobxTest {...props} store={counterStore} />}
                         />
                         <PrivateRoute path="/product" component={Product} />
                     </Switch>
