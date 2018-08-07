@@ -13,6 +13,12 @@ class Home extends React.Component {
         return (
             <div>
                 <h2>Welcome, {this.props.user.username}</h2>
+                {this.props.mobxStore.history.map((el) => (
+                    <div key={el.key}>
+                        Count: {el.count}<br />
+                        Price: {el.price}
+                    </div>
+                ))}
             </div>
         );
     }

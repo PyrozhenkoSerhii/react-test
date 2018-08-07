@@ -9,15 +9,18 @@ import Home from './Home';
 import Product from './Product';
 import Callback from './callback/Callback';
 
+import MobxTest from './mobxTest';
+
+import {counterStore} from '../mobx/counter';
+
 import Auth from '../auth/auth';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        localStorage.getItem('access_token') !== null ? <Component {...props} /> : <Redirect to='/login' />
-        //localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login' />
+        // localStorage.getItem('access_token') !== null ? <Component {...props} /> : <Redirect to='/login' />
+        localStorage.getItem('token') !== null ? <Component {...props} /> : <Redirect to='/login' />
     )} />
 );
-
 
 
 export default class App extends React.Component {
@@ -77,19 +80,22 @@ export default class App extends React.Component {
                                 <Link className="nav-link" to="/">Home</Link>
                             </li>
                             <li className="nav-item">
-                                {!this.state.isAuth0 && <Link className="nav-link" to="/register">Register</Link>}
+                                {!this.state.authenticated && <Link className="nav-link" to="/register">Register</Link>}
                             </li>
                             <li className="nav-item">
-                                {!this.state.isAuth0 && <Link className="nav-link" to="/login">Login</Link>}
+                                {!this.state.authenticated && <Link className="nav-link" to="/login">Login</Link>}
                             </li>
                             <li className="nav-item">
-                                {this.state.isAuth0 && <Link className="nav-link" to="/product">Product</Link>}
+                                {this.state.authenticated && <Link className="nav-link" to="/product">Product</Link>}
                             </li>
                             <li className="nav-item">
-                                {this.state.isAuth0 && <Link className="nav-link" to="/login" onClick={this.logout}>Logout</Link>}
+                                {this.state.authenticated && <Link className="nav-link" to="/login" onClick={this.logout}>Logout</Link>}
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" onClick={this.authLogin}>Auth0 test</a>
+                            </li>
+                            <li className="nav-item">
+                                {this.state.authenticated && <Link className="nav-link" to="/mobxTest">MobxTest</Link>}
                             </li>
 
                         </ul>
@@ -100,7 +106,7 @@ export default class App extends React.Component {
                     <Switch>
                         <Route
                             exact path='/'
-                            render={(props) => <Home {...props} userData={this.state.user} />}
+                            render={(props) => <Home {...props} userData={this.state.user} mobxStore={counterStore} />}
                         />
                         <Route
                             path='/login'
@@ -115,6 +121,10 @@ export default class App extends React.Component {
                                     return <Callback {...props} />
                                 }
                             }
+                        />
+                        <Route 
+                            path="/mobxTest"
+                            render={(props) => <MobxTest {...props} store={counterStore} />} 
                         />
                         <PrivateRoute path="/product" component={Product} />
                     </Switch>
