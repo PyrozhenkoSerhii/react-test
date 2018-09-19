@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {addProduct} from "../../actions/product";
+import {addProduct} from "../../redux/actions/product";
 import uuid from 'uuid';
 
 import {FormGroup} from 'react-bootstrap';

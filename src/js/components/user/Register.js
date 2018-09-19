@@ -9,7 +9,7 @@ import {ControlLabel} from 'react-bootstrap';
 import {FormControl} from 'react-bootstrap';
 import {Button} from "react-bootstrap";
 
-import {addUser} from "../../actions/user";
+import {addUser} from "../../redux/actions/user";
 import {BASE_URL, customerUrl} from "../../apiConfig";
 
 const mapDispatchToProps = dispatch => {

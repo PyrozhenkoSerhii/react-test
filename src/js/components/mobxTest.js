@@ -1,7 +1,8 @@
 import { observer } from 'mobx-react'
 import React, { Component } from 'react';
-
 import DevTools from 'mobx-react-devtools';
+
+
 
 @observer
 class MobxTest extends Component {

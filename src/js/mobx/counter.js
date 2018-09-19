@@ -19,7 +19,7 @@ class ObservableCounter {
     constructor() {
         when(
             () => this.orders > 20,
-            () => console.log("You've sold more than 20 items!")
+            () => console.log("More than 20 orders")
         )
     }
 
