@@ -8,7 +8,7 @@ import Register from './user/Register';
 import Home from './Home';
 import Product from './Product';
 import Callback from './callback/Callback';
-
+import OracleTest from './oracleTest/oracleTest';
 import MobxTest from './mobxTest';
 
 import { counterStore } from '../mobx/counter';
@@ -96,6 +96,9 @@ export default class App extends React.Component {
                             <li className="nav-item">
                                 {this.state.authenticated && <Link className="nav-link" to="/mobxTest">MobxTest</Link>}
                             </li>
+                            <li className="nav-item">
+                                {this.state.authenticated && <Link className="nav-link" to="/oracleTest">OracleTest</Link>}
+                            </li>
 
                         </ul>
                     </div>
@@ -126,6 +129,10 @@ export default class App extends React.Component {
                             render={(props) => <MobxTest {...props} store={counterStore} />}
                         />
                         <PrivateRoute path="/product" component={Product} />
+                        <Route
+                            path="/oracleTest"
+                            render={(props) => <OracleTest {...props} />}
+                        />
                     </Switch>
                 </div>
             </div>

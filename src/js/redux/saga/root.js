@@ -34,7 +34,9 @@ function* loginWatcher() {
 
 function* login(payload) {
     try {
-        const response = yield call(Api.postRequest, 'customers/authenticate', payload.user)
+        const response = yield call(Api.postRequest, 'customers/authenticate', payload)
+        localStorage.setItem('user', response.data.customer)
+        localStorage.setItem('token', response.data.token)
         yield put({ type: SAVE_USER, payload: response.data.customer })
         yield put({ type: SAVE_TOKEN, payload: response.data.token })
     }
